@@ -96,7 +96,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/21/hello-world/" data-id="cig0e61eo00009d9vnxlqp6gc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/21/hello-world/" data-id="cig0eakg50001b79vtedj4rf9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -106,6 +106,425 @@
 
 
   
+    <article id="post-2015-09-29-node-dot-js-primer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/29/2015-09-29-node-dot-js-primer/" class="article-date">
+  <time datetime="2015-09-29T09:35:28.000Z" itemprop="datePublished">2015-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/29/2015-09-29-node-dot-js-primer/">Node.js primer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="The_correct_writing_for_Node-js">The correct writing for Node.js</h2><p>NodeJS、Nodejs都是错的，Node.js官网用Node或Node.js， Node.js更准确，后缀点出了Node的本意。  </p>
+<p>##Node.js 是什么<br>它并不是一个Javascript应用，它采用C++语言编写而成，是一个可以在后端运行Javascript的运行环境(平台)。<br>Node.js的设计思路中以事件驱动为核心，它提供的绝大多数API都是基于事件的、异步的风格。</p>
+<p>##Node.js核心词汇</p>
+<p>###事件驱动、异步编程<br>Node.js以事件驱动为核心，注册相应的回调函数实现。</p>
+<p>###快速构建Web服务器<br>网络编程比较便利，提供的模块开放了容易上手的API</p>
+<p>###性能<br>单进程、单线程运行模式</p>
+<p>###异步IO<br>为了充分利用CPU,和使I/O可以并行,目前有两种方式可以 达到目的:<br>多线程单进程<br>多线程的设计之处就是为了在共享的程序空间中,实现并行处理任 务,从而达到充分利用CPU的效果。多线程的缺点在于执行时上下文 交换的开销较大,和状态同步(锁)的问题。同样它也使得程序的编 写和调用复杂化。</p>
+<p>单线程多进程<br>为了避免多线程造成的使用不便问题,有的语言选择了单线程保持调 用简单化,采用启动多进程的方式来达到充分利用CPU和提升总体的 并行处理能力。 它的缺点在于业务逻辑复杂时(涉及多个I/O调用), 因为业务逻辑不能分布到多个进程之间,事务处理时长要远远大于多线程模式。</p>
+<p>￼</p>
+<p>??Javascript的匿名函数和闭包特性</p>
+<p>##CommonJS 规范</p>
+<p>##简单模块的定义和使用<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> PI = <span class="built_in">Math</span>.PI; </span><br><span class="line"></span><br><span class="line">exports.area = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> PI * r * r; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">exports.circumference = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123; </span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * PI * r;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>将这个文件存为circle.js,并新建一个app.js文件,并写入以下代码<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> circle = <span class="keyword">require</span>(<span class="string">'./circle.js'</span>);</span><br><span class="line">console<span class="built_in">.</span><span class="keyword">log</span>( <span class="string">'The area of a circle of radius 4 is</span><br><span class="line">'</span> + circle<span class="built_in">.</span>area(<span class="number">4</span>));</span><br></pre></td></tr></table></figure></p>
+<p>Node.js模块分为两类，一类为原生（核心）模块，一类是文件模块。</p>
+<p>一个符合CommonJS规范的包应该是如下这种结构:</p>
+<ol>
+<li>一个package.json文件应该存在于包顶级目录下 </li>
+<li>二进制文件应该包含在bin目录下</li>
+<li>JavaScript代码应该包含在lib目录下</li>
+<li>文档应该在doc目录下</li>
+<li>单元测试应该在test目录下。</li>
+</ol>
+<p>package.json文件定义了如下 一些必须的字段:<br>name: 包名,需要在NPM上是唯一的。不能带有空格。<br>description: 包简介。通常会显示在一些列表中。<br>version: 版本号。一个语义化的版本号(<a href="http://semver.org/" target="_blank" rel="external">http://semver.org/</a> ),通常 为x.y.z。该版本号十分重要,常常用于一些版本控制的场合。<br>keyword: 关键字数组。用于NPM中的分类搜索。<br>maintainers: 包维护者的数组。数组元素是一个包含name、email、 web三个属性的JSON对象。<br>contributors: 包贡献者的数组。第一个就是包的作者本人。在开源社区,如果提交的patch被merge进master分支的话,就应当加上这个贡献patch的人。格式包含name和email。如:<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"contributors"</span>: [&#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"Jackson Tian"</span>, </span><br><span class="line">	<span class="string">"email"</span>: <span class="string">"mail <span class="variable">@gmail</span>.com"</span></span><br><span class="line">&#125;, &#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"fengmk2"</span>, </span><br><span class="line">	<span class="string">"email"</span>: <span class="string">"mail2<span class="variable">@gmail</span>.com"</span></span><br><span class="line">&#125;],</span><br></pre></td></tr></table></figure></p>
+<p>bugs:一个可以提交bug的URL地址。可以是邮件地址 (mailto:mailxx@domain),也可以是网页地址(<a href="http://url)。" target="_blank" rel="external">http://url)。</a><br>licenses: 包所使用的许可证。例如:<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">￼<span class="string">"licenses"</span>: [&#123; <span class="string">"type"</span>: <span class="string">"GPLv2"</span>,</span><br><span class="line"><span class="string">"url"</span>: <span class="string">"http://www.example.com/licenses/gpl.h tml"</span>,</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>repositories: 托管源代码的地址数组。<br>dependencies: 当前包需要的依赖。这个属性十分重要,NPM会通过 这个属性,帮你自动加载依赖的包。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/09/29/2015-09-29-node-dot-js-primer/" data-id="cig0eakg70002b79vijp5obs8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-08-14-nodejs-study-points" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/14/2015-08-14-nodejs-study-points/" class="article-date">
+  <time datetime="2015-08-14T03:33:12.000Z" itemprop="datePublished">2015-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/14/2015-08-14-nodejs-study-points/">nodejs study points</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>Install express<br>express is a framework for nodejs. Its latest version is after 4.0. Original after we install the express, the terminal tool is installed together. For the the version after 4.0 they should be installed separately. You can install the express framework by :<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> express</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>However, this command is just for installing the framework, if you want to install teh terminal command tool, you should install the generator as below:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> express-generator</span></span><br></pre></td></tr></table></figure></p>
+<p>Reminder that you should execute al these commands as administrator, add “sudo”</p>
+<ol>
+<li>express -t is deprecated, use express -e/–ejs instead.</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/14/2015-08-14-nodejs-study-points/" data-id="cig0eakg80003b79v0c9kaj1k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-08-08-javascript-and-dom" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/08/2015-08-08-javascript-and-dom/" class="article-date">
+  <time datetime="2015-08-08T12:56:25.000Z" itemprop="datePublished">2015-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/08/2015-08-08-javascript-and-dom/">JavaScript &amp;amp; DOM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/08/2015-08-08-javascript-and-dom/" data-id="cig0eakga0004b79vcbcg5mdd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-08-04-issues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/04/2015-08-04-issues/" class="article-date">
+  <time datetime="2015-08-04T07:22:33.000Z" itemprop="datePublished">2015-08-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/04/2015-08-04-issues/">Issues</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>UICollectionView registerClass, 如果UICollectionViewController是code实现，需要用registerCLass，如果是用storyboard实现，则不需要用；</p>
+</li>
+<li><p>dequeueReusableCellWithIdentifier:forIndexPath:相比不带“forIndexPath” 的版本会多调用一次高度计算</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/04/2015-08-04-issues/" data-id="cig0eakgb0005b79v0rbabyxi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-07-20-kvc-and-kvo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/20/2015-07-20-kvc-and-kvo/" class="article-date">
+  <time datetime="2015-07-20T07:10:25.000Z" itemprop="datePublished">2015-07-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/20/2015-07-20-kvc-and-kvo/">KVC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Background</p>
+<p>KVC is a fundamental technology when working with key-value observing, Cocoa bindings, Core Data and making your application AppleScript-able. It’s really powerful, But few know about the detail. Especially for the collection operators. As part of KVC, collection operators help make many routine tasks simple.<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/07/20/2015-07-20-kvc-and-kvo/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/20/2015-07-20-kvc-and-kvo/" data-id="cig0eakgd0006b79vocaimjja" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-07-19-test-driven-development" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/19/2015-07-19-test-driven-development/" class="article-date">
+  <time datetime="2015-07-18T23:49:13.000Z" itemprop="datePublished">2015-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/19/2015-07-19-test-driven-development/">Test Driven Development</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>可运行的简洁代码是关于“测试驱动开发”（TDD）目标的精辟概括。 TDD带给我们前所未有的好处：</p>
+<ol>
+<li>仅当自动化测试失败的时候才需要编写新的代码；</li>
+<li>可以以TDD为依据进行重构，去掉重复的代码；</li>
+<li>自动化测试可以作为help manual， 代码中不再需要过多的注释。</li>
+</ol>
+<p>当然，它也有弊端：</p>
+<ol>
+<li>必须developer自己写测试；</li>
+<li>我们的设计必须遵循高内聚、低耦合的原则，否则不便于测试；</li>
+<li>快速响应，实时的维护自动化测试；</li>
+</ol>
+<p>TDD的经典三部曲</p>
+<ol>
+<li>红色指示条：根据需求编写一个测试，当然此时这个测试无法通过编译；</li>
+<li>绿色指示条：编写代码，使测试通过，这个过程可谓想方设法，可谓不择手段；</li>
+<li>重构： 去除单纯由于使测试通过的重复部分。</li>
+</ol>
+<p>3A<br>编写测试时可以遵循以下3个步骤：<br>Build: 创建对象，我们希望每个测试在执行之前都执行此步；<br>Operation： 执行测试；<br>Check：验证结果。</p>
+<p>这样的模式又带来两个问题：</p>
+<ol>
+<li>性能：如果众多测试中使用类似的对象，我们希望对象只被创建一次；</li>
+<li>测试隔离：每个测试的通过与否都不应该与其他测试相关。这样，如果每个对象都只被创建了一次，其中一个测试改变了对象，它必然影响其他测试。<br>在xUnit框架中，每个测试在执行前都会调用setup()方法创建对象，执行结束后调用teardown()方法释放对象。</li>
+</ol>
+<p>要TDD我们应该怎么做：</p>
+<ol>
+<li>维护一张测试列表，根据需求制定并维护一张测试列表；</li>
+<li>测试优先， 在编写代码前先编写测试；</li>
+<li>显示数据，测试中避免使用magic number；</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/19/2015-07-19-test-driven-development/" data-id="cig0eakgf0007b79v33e1o9n9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-06-25-reactivecocoa-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/25/2015-06-25-reactivecocoa-notes/" class="article-date">
+  <time datetime="2015-06-25T07:10:35.000Z" itemprop="datePublished">2015-06-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/25/2015-06-25-reactivecocoa-notes/">ReactiveCocoa Notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Background<br>ReactiveCocoa (RAC) is an Objective-C framework inspired by Functional Reactive Programming. It provides APIs for composing and transforming streams of values.<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/06/25/2015-06-25-reactivecocoa-notes/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/25/2015-06-25-reactivecocoa-notes/" data-id="cig0eakgi0008b79vfezfplmt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-06-16-storyboard-for-tableview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/16/2015-06-16-storyboard-for-tableview/" class="article-date">
+  <time datetime="2015-06-16T02:49:44.000Z" itemprop="datePublished">2015-06-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/16/2015-06-16-storyboard-for-tableview/">Storyboard for tableview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Background<br>Our team switch to use storyboard for configuring UI components for currrent project.  In the past, I used code to configuring UI components, and there was no issue for tablecell height autofit by using layoutSubviews or other methods. However, as a newbie for storyboard, I encountered this issue. I cann’t layout tablecell with correct height. After days of learning and research, I have found the method to resolve it so I’d like to write an article to summary it.<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/06/16/2015-06-16-storyboard-for-tableview/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/16/2015-06-16-storyboard-for-tableview/" data-id="cig0eakgj0009b79vxcgk4j4s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2015-06-11-how-to-edit-git-ignore-file" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/" class="article-date">
+  <time datetime="2015-06-11T02:00:49.000Z" itemprop="datePublished">2015-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/">How to edit gitignore file for Xcode project</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A gitignore file specifies intentionallly untracked files that Git should ignore. Each line in a gitignore file sepecifies a pattern. We can see the detail as follows:<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/" data-id="cig0eakgk000ab79vdbkhei85" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </section>
         
@@ -121,7 +540,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -134,6 +553,22 @@
         
           <li>
             <a href="/2015/10/21/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/29/2015-09-29-node-dot-js-primer/">Node.js primer</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/14/2015-08-14-nodejs-study-points/">nodejs study points</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/2015-08-08-javascript-and-dom/">JavaScript &amp;amp; DOM</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/04/2015-08-04-issues/">Issues</a>
           </li>
         
       </ul>

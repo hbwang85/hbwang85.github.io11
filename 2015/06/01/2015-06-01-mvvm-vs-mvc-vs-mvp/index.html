@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MVVM VS MVC VS MVP | Henry&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##BackgroundMVC作为提倡的代码结构已经被广泛使用。但是随着使用越来越多，它的弊端也越来越明显。比如：Model管理数据，View管理UI相关，Controller协调Model和View。Controller因此包含了太多的property和Protocol的执行代码，这导致Controller职责太大，代码量也太大。 MVC已经不是Model-View-Controller， 而成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVVM VS MVC VS MVP">
+<meta property="og:url" content="http://yoursite.com/2015/06/01/2015-06-01-mvvm-vs-mvc-vs-mvp/index.html">
+<meta property="og:site_name" content="Henry's Blog">
+<meta property="og:description" content="##BackgroundMVC作为提倡的代码结构已经被广泛使用。但是随着使用越来越多，它的弊端也越来越明显。比如：Model管理数据，View管理UI相关，Controller协调Model和View。Controller因此包含了太多的property和Protocol的执行代码，这导致Controller职责太大，代码量也太大。 MVC已经不是Model-View-Controller， 而成">
+<meta property="og:image" content="http://yoursite.com/images/mvc_mvvm/mvc.png">
+<meta property="og:image" content="http://yoursite.com/images/mvc_mvvm/mvvm.png">
+<meta property="og:updated_time" content="2015-06-25T08:00:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVVM VS MVC VS MVP">
+<meta name="twitter:description" content="##BackgroundMVC作为提倡的代码结构已经被广泛使用。但是随着使用越来越多，它的弊端也越来越明显。比如：Model管理数据，View管理UI相关，Controller协调Model和View。Controller因此包含了太多的property和Protocol的执行代码，这导致Controller职责太大，代码量也太大。 MVC已经不是Model-View-Controller， 而成">
+  
+    <link rel="alternative" href="/atom.xml" title="Henry&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Henry&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2015-06-01-mvvm-vs-mvc-vs-mvp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/01/2015-06-01-mvvm-vs-mvc-vs-mvp/" class="article-date">
+  <time datetime="2015-06-01T09:58:28.000Z" itemprop="datePublished">2015-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MVVM VS MVC VS MVP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Background<br>MVC作为提倡的代码结构已经被广泛使用。但是随着使用越来越多，它的弊端也越来越明显。比如：Model管理数据，View管理UI相关，Controller协调Model和View。Controller因此包含了太多的property和Protocol的执行代码，这导致Controller职责太大，代码量也太大。 MVC已经不是Model-View-Controller， 而成为了Massive-View-Controller。</p>
+<p>其次，我们应该把网络层相关code放到哪里？Model？网络请求通常都是异步的，如果网络请求的生命周期不完全属于这个Model呢？很明显我们也不能把网络代码放在View中。那么只能放到Controller中，这又进一步使MVC成了Massive-View-Controller。<br><a id="more"></a></p>
+<p>##Element</p>
+<p>###Model<br>包含数据对象以及外部对数据操作的接口。</p>
+<p>###View<br>包含所有的UI显示及用户交互。为了提高重用性，工程里需要将相同的UI作为一个单独的View。</p>
+<p>##MVC (Model-View-Controller)</p>
+<img src="/images/mvc_mvvm/mvc.png" class="center">
+<p>Controller或者将UI事件传递给Model层，引起Model的数据改变或显示相应的View，或者选择显示下一个View。<br>Model通过Observer模式update View。  </p>
+<ol>
+<li><p>一个Controller对应多个View；  </p>
+</li>
+<li><p>Model的数据更新不通过Controller直接通知View。  </p>
+</li>
+</ol>
+<p>Disadvantage：  </p>
+<p>难于进行UT测试。如何从View角度评估Controller对数据的操作的结果？例如：用户点击的按钮，然后点击事件被传递给了Controller，Controller更新了Model的数据。Model通过Observer模式更新了View中的font size/color。 </p>
+<p>##MVP（Model-View-Presenter）</p>
+<ol>
+<li>Objective-C中涉及的MVC等同于MVP；</li>
+<li>一个Presenter只对应一个View；</li>
+<li>与Controller有相同的地方，接收UI事件传递给Model层，update Model，但是Model的更新不会直接通知View，而是先通知Presenter，然后Presenter再通知View更新；</li>
+</ol>
+<p>##MVVM (Model-View-ViewModel)</p>
+<img src="/images/mvc_mvvm/mvvm.png" class="center">
+<ol>
+<li>ViewModel不同Model，可以理解为view的model，即包含View的一些属性和操作的Model;</li>
+<li>View和ViewModel的通知是双向的，View的变化会直接作用于ViewModel，ViewModel的变化也会直接作用于View；</li>
+<li>一个ViewModel对应一个View;</li>
+<li>View包含View和ViewController, MVVM架构下，View应该足够简单，它应该只被用来显示当前UI的状态.</li>
+</ol>
+<p>##Summary<br>几种模式主要区别在于粘合Model和View的方式以及实现用户交互操作机变更通知的方式。但是他们并没有太明确的界限，我们的最终目的是模块解耦，使每个模块都更轻量化，UT更容易。实际工作中经常不经意间融合几种模式在一起，不必太纠结。</p>
+<p>##Reference</p>
+<ol>
+<li><a href="http://joel.inpointform.net/software-development/mvvm-vs-mvp-vs-mvc-the-differences-explained/" target="_blank" rel="external">http://joel.inpointform.net/software-development/mvvm-vs-mvp-vs-mvc-the-differences-explained/</a></li>
+<li><a href="http://www.teehanlax.com/blog/model-view-viewmodel-for-ios/" target="_blank" rel="external">http://www.teehanlax.com/blog/model-view-viewmodel-for-ios/</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/01/2015-06-01-mvvm-vs-mvc-vs-mvp/" data-id="cig0eakgm000bb79vc4240spf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          How to edit gitignore file for Xcode project
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/29/2015-05-29-kai-pian-zhi-zuo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">开篇之作</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/10/21/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/29/2015-09-29-node-dot-js-primer/">Node.js primer</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/14/2015-08-14-nodejs-study-points/">nodejs study points</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/2015-08-08-javascript-and-dom/">JavaScript &amp;amp; DOM</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/04/2015-08-04-issues/">Issues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Henry Wang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

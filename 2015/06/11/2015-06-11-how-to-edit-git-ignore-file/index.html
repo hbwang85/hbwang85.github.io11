@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>How to edit gitignore file for Xcode project | Henry&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="A gitignore file specifies intentionallly untracked files that Git should ignore. Each line in a gitignore file sepecifies a pattern. We can see the detail as follows:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to edit gitignore file for Xcode project">
+<meta property="og:url" content="http://yoursite.com/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/index.html">
+<meta property="og:site_name" content="Henry's Blog">
+<meta property="og:description" content="A gitignore file specifies intentionallly untracked files that Git should ignore. Each line in a gitignore file sepecifies a pattern. We can see the detail as follows:">
+<meta property="og:updated_time" content="2015-06-17T07:15:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to edit gitignore file for Xcode project">
+<meta name="twitter:description" content="A gitignore file specifies intentionallly untracked files that Git should ignore. Each line in a gitignore file sepecifies a pattern. We can see the detail as follows:">
+  
+    <link rel="alternative" href="/atom.xml" title="Henry&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Henry&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2015-06-11-how-to-edit-git-ignore-file" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/" class="article-date">
+  <time datetime="2015-06-11T02:00:49.000Z" itemprop="datePublished">2015-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      How to edit gitignore file for Xcode project
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A gitignore file specifies intentionallly untracked files that Git should ignore. Each line in a gitignore file sepecifies a pattern. We can see the detail as follows:<br><a id="more"></a>  </p>
+<p>##PATTERN FORMAT</p>
+<ul>
+<li><p>A blank line matches no files, so it can serve as a separator for readability.  </p>
+</li>
+<li><p>A line starting with # serves as a comment. Put a backslash (“\“) in front of the first hash for patterns that begin with a hash.  </p>
+</li>
+<li><p>Trailing spaces are ignored unless they are quoted with backslash (“\“).  </p>
+</li>
+<li><p>An optional prefix “!” which negates the pattern; any matching file excluded by a previous pattern will become included again. It is not possible to re-include a file if a parent directory of that file is excluded. Git doesn’t list excluded directories for performance reasons, so any patterns on contained files have no effect, no matter where they are defined. Put a backslash (“\“) in front of the first “!” for patterns that begin with a literal “!”, for example, “!important!.txt”.  </p>
+</li>
+<li><p>If the pattern ends with a slash, it is removed for the purpose of the following description, but it would only find a match with a directory. In other words, foo/ will match a directory foo and paths underneath it, but will not match a regular file or a symbolic link foo (this is consistent with the way how pathspec works in general in Git).      </p>
+</li>
+<li><p>If the pattern does not contain a slash /, Git treats it as a shell glob pattern and checks for a match against the pathname relative to the location of the .gitignore file (relative to the toplevel of the work tree if not from a .gitignore file).  </p>
+</li>
+</ul>
+<p>Two consecutive asterisks (“**”) in patterns matched against full pathname may have special meaning:  </p>
+<ul>
+<li><p>A leading “**“ followed by a slash means match in all directories. For example, “**/foo” matches file or directory “foo” anywhere, the same as pattern “foo”. “**/foo/bar” matches file or directory “bar” anywhere that is directly under directory “foo”.  </p>
+</li>
+<li><p>A trailing “/**“ matches everything inside. For example, “abc/**“ matches all files inside directory “abc”, relative to the location of the .gitignore file, with infinite depth.  </p>
+</li>
+<li><p>A slash followed by two consecutive asterisks then a slash matches zero or more directories. For example, “a/**/b” matches “a/b”, “a/x/b”, “a/x/y/b” and so on.  </p>
+</li>
+<li><p>Other consecutive asterisks are considered invalid.</p>
+</li>
+</ul>
+<p>##Notice  </p>
+<p>Patterns read from a .gitignore file in the same directory as the path, or in any parent directory, with patterns in the higher level files (up to the toplevel of the work tree) being overridden by those in lower level files down to the directory containing the file.   </p>
+<p>##gitignore file for xcode<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">## Build generated</span></span><br><span class="line"><span class="preprocessor"># slash on the end, so we only remove the FOLDER, not any files that were badly named "DerivedData"</span></span><br><span class="line">build/</span><br><span class="line">DerivedData/</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#####</span></span><br><span class="line"><span class="preprocessor"># Xcode private settings (window sizes, bookmarks, breakpoints, custom executables, smart groups)</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># This is complicated:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># SOMETIMES you need to put this file in version control.</span></span><br><span class="line"><span class="preprocessor"># Apple designed it poorly - if you use "custom executables", they are</span></span><br><span class="line"><span class="preprocessor">#  saved in this file.</span></span><br><span class="line"><span class="preprocessor"># 99% of projects do NOT use those, so they do NOT want to version control this file.</span></span><br><span class="line"><span class="preprocessor">#  ..but if you're in the 1%, comment out the line "*.pbxuser"</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># .pbxuser: http://lists.apple.com/archives/xcode-users/2004/Jan/msg00193.html</span></span><br><span class="line"></span><br><span class="line">*.pbxuser</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># .mode1v3: http://lists.apple.com/archives/xcode-users/2007/Oct/msg00465.html</span></span><br><span class="line"></span><br><span class="line">*.mode1v3</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># .mode2v3: http://lists.apple.com/archives/xcode-users/2007/Oct/msg00465.html</span></span><br><span class="line"></span><br><span class="line">*.mode2v3</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># .perspectivev3: http://stackoverflow.com/questions/5223297/xcode-projects-what-is-a-perspectivev3-file</span></span><br><span class="line"></span><br><span class="line">*.perspectivev3</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># also, whitelist the default ones, some projects need to use these</span></span><br><span class="line">!<span class="keyword">default</span>.pbxuser</span><br><span class="line">!<span class="keyword">default</span>.mode1v3</span><br><span class="line">!<span class="keyword">default</span>.mode2v3</span><br><span class="line">!<span class="keyword">default</span>.perspectivev3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># OPTION 1: ---------------------------------</span></span><br><span class="line"><span class="preprocessor">#     throw away ALL personal settings (including custom schemes!</span></span><br><span class="line"><span class="preprocessor">#     - unless they are "shared")</span></span><br><span class="line"><span class="preprocessor"># As per build/ and DerivedData/, this ought to have a trailing slash</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># NB: this is exclusive with OPTION 2 below</span></span><br><span class="line">xcuserdata/</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># OPTION 2: ---------------------------------</span></span><br><span class="line"><span class="preprocessor">#     get rid of ALL personal settings, but KEEP SOME OF THEM</span></span><br><span class="line"><span class="preprocessor">#     - NB: you must manually uncomment the bits you want to keep</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># NB: this *requires* git v1.8.2 or above; you may need to upgrade to latest OS X,</span></span><br><span class="line"><span class="preprocessor">#    or manually install git over the top of the OS X version</span></span><br><span class="line"><span class="preprocessor"># NB: this is exclusive with OPTION 1 above</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#xcuserdata/**/*</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#     (requires option 2 above): Personal Schemes</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#!xcuserdata/**/xcschemes/*</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">####</span></span><br><span class="line"><span class="preprocessor"># Xcode 4 - semi-personal settings</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># Apple Shared data that Apple put in the wrong folder</span></span><br><span class="line"><span class="preprocessor"># c.f. http://stackoverflow.com/a/19260712/153422</span></span><br><span class="line"><span class="preprocessor">#     FROM ANSWER: Apple says "don't ignore it"</span></span><br><span class="line"><span class="preprocessor">#     FROM COMMENTS: Apple is wrong; Apple code is too buggy to trust; there are no known negative side-effects to ignoring Apple's unofficial advice and instead doing the thing that actively fixes bugs in Xcode</span></span><br><span class="line"><span class="preprocessor"># Up to you, but ... current advice: ignore it.</span></span><br><span class="line">*.xccheckout</span><br><span class="line">*.moved-aside</span><br><span class="line">*.xcuserstate</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">####</span></span><br><span class="line"><span class="preprocessor"># XCode 4 workspaces - more detailed</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># Workspaces are important! They are a core feature of Xcode - don't exclude them :)</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># Workspace layout is quite spammy. For reference:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># /(root)/</span></span><br><span class="line"><span class="preprocessor">#   /(project-name).xcodeproj/</span></span><br><span class="line"><span class="preprocessor">#     project.pbxproj</span></span><br><span class="line"><span class="preprocessor">#     /project.xcworkspace/</span></span><br><span class="line"><span class="preprocessor">#       contents.xcworkspacedata</span></span><br><span class="line"><span class="preprocessor">#       /xcuserdata/</span></span><br><span class="line"><span class="preprocessor">#         /(your name)/xcuserdatad/</span></span><br><span class="line"><span class="preprocessor">#           UserInterfaceState.xcuserstate</span></span><br><span class="line"><span class="preprocessor">#     /xcshareddata/</span></span><br><span class="line"><span class="preprocessor">#       /xcschemes/</span></span><br><span class="line"><span class="preprocessor">#         (shared scheme name).xcscheme</span></span><br><span class="line"><span class="preprocessor">#     /xcuserdata/</span></span><br><span class="line"><span class="preprocessor">#       /(your name)/xcuserdatad/</span></span><br><span class="line"><span class="preprocessor">#         (private scheme).xcscheme</span></span><br><span class="line"><span class="preprocessor">#         xcschememanagement.plist</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">## Obj-C/Swift specific</span></span><br><span class="line">*.hmap</span><br><span class="line">*.ipa</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">####</span></span><br><span class="line"><span class="preprocessor"># OPTIONAL: Some well-known tools that people use side-by-side with Xcode / iOS development</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># NB: I'd rather not include these here, but gitignore's design is weak and doesn't allow</span></span><br><span class="line"><span class="preprocessor">#     modular gitignore: you have to put EVERYTHING in one file.</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># COCOAPODS:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># c.f. http://guides.cocoapods.org/using/using-cocoapods.html#what-is-a-podfilelock</span></span><br><span class="line"><span class="preprocessor"># c.f. http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#!Podfile.lock</span></span><br><span class="line"><span class="preprocessor">#Pods</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># RUBY:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># c.f. http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#!Gemfile.lock</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># IDEA:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#.idea</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># TEXTMATE:</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># -- UNVERIFIED: c.f. http://stackoverflow.com/a/50283/153422</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#tm_build_errors</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">####</span></span><br><span class="line"><span class="preprocessor"># UNKNOWN: recommended by others, but I can't discover what these files are</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># Community suggestions (unverified, no evidence available - DISABLED by default)</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># 1. Xcode 5 - VCS file</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># "The data in this file not represent state of your project.</span></span><br><span class="line"><span class="preprocessor"># If you'll leave this file in git - you will have merge conflicts during </span></span><br><span class="line"><span class="preprocessor"># pull your cahnges to other's repo"</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor">#*.xccheckout</span></span><br></pre></td></tr></table></figure></p>
+<p>##Other File<br>project.xcworkspace is a directory of files describing the workspace or projects. Although some of the answers here indicate it is unnecessary and should be ignored for source control, I don’t agree, but it’s going to be highly dependent upon how you use your environment. Generally, the contents of the project.xcworkspace directory contains the contents.xcworkspacedata file, which lists the projects that are included as top-level entities in your project, an xcuserdata directory, which contains each user’s settings (should be ignored for source code controL), and xcshareddata, which is data shared by users who share a project, and should be under source control.</p>
+<p>In environments where you don’t share workspaces, or where you use simple workspaces, you can ignore these as well, however in environments where you put related projects in the same workspace and share that configuration, you may well want to keep these.</p>
+<p>##Reference  </p>
+<ol>
+<li><a href="http://git-scm.com/docs/gitignore" target="_blank" rel="external">http://git-scm.com/docs/gitignore</a>   </li>
+<li><a href="http://stackoverflow.com/questions/49478/git-ignore-file-for-xcode-projects" target="_blank" rel="external">http://stackoverflow.com/questions/49478/git-ignore-file-for-xcode-projects</a>  </li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/11/2015-06-11-how-to-edit-git-ignore-file/" data-id="cig0eakgk000ab79vdbkhei85" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/16/2015-06-16-storyboard-for-tableview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Storyboard for tableview
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/06/01/2015-06-01-mvvm-vs-mvc-vs-mvp/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MVVM VS MVC VS MVP</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/10/21/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/29/2015-09-29-node-dot-js-primer/">Node.js primer</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/14/2015-08-14-nodejs-study-points/">nodejs study points</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/2015-08-08-javascript-and-dom/">JavaScript &amp;amp; DOM</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/04/2015-08-04-issues/">Issues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Henry Wang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
